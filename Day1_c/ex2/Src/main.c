@@ -129,6 +129,17 @@ uint16_t sine_lut_quarter = { 0,   427,   856,  1285,  1713,  2142,  2569,  2997
   32767, 32764, 32755, 32741, 32722, 32696, 32665, 32629, 32587, 32539
 };
 
+// for Type 4: Precalculate dPhi and initialize
+const float64_t re_d_Phi1 = cos(2*PI*f1/fs);
+const float64_t im_d_Phi1 = sim(2*PI*f1/fs);
+float64_t re_Phi1 = 0.0;
+float64_t im_Phi1 = 1.0;
+
+const float64_t re_d_Phi2 = cos(2*PI*f1/fs);
+const float64_t im_d_Phi2 = sim(2*PI*f1/fs);
+float64_t re_Phi2 = 0.0;
+float64_t im_Phi2 = 1.0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -333,7 +344,16 @@ int get_sin(uint8_t type, uint8_t n_period) {
   }
 
   if(type == 4) {
-    // TODO Phasor
+    // PHASOR, new, to be testet
+    // This could be done with integer values as well, with reduced accuracy
+    for(int i=0; i < 128; i++) {
+      sine[2*1] = (int16_t) re_Phi1 * (amplitude * 32767);
+      sine[2*i+1] = (int16_t) re_Phi2 * (amplitude * 32767);
+      re_Phi1 = re_d_Phi1 * re_Phi1 - im_Phi1 * im_d_Phi1;
+      im_Phi1 = im_d_Phi1 * re_Phi1 + re_d_Phi1 * im_Phi1;
+      re_Phi2 = re_d_Phi2 * re_Phi2 - im_Phi2 * im_d_Phi2;
+      im_Phi2 = im_d_Phi2 * re_Phi2 + re_d_Phi2 * im_Phi2;
+    }
   }
   return &sine;
 }

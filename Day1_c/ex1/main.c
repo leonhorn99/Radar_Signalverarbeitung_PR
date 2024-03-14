@@ -210,6 +210,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
       of_counter = 0;
     }
     if(moves > -1){
+      if (moves == 0){ // Changed for Timing improvements, need to test
+        htim1->CNT = 0; // new
+      } // new
+      }
       moves--;
     }
   }
@@ -218,6 +222,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   if(GPIO_Pin == BTN1_Pin) {
     moves+=7;
+    htim1->CNT = 0; // !TODO test if it works
   }
 }
 
