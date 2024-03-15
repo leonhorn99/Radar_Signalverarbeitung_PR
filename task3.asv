@@ -11,7 +11,7 @@ slope = (fstop-fstart)/t;
 phi = 0;
 for n = 2:steps
     n1 = n/fs;
-    phi(n) = (2*pi*((fstart)*n + slope*n1^2/2));
+    phi(n) = (2*pi*((fstart*fs)* + slope*n1^2/2));
     %phi(n) = mod(2*pi*(fstart*n + slope*n^2/2),2*pi);
     sine(n) = cos(phi(n));
 end

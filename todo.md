@@ -1,0 +1,1 @@
+counter einbauen und nach 480 den wert auf 0 und 1 zurücksetzen bei phasor und iir filter
