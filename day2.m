@@ -7,7 +7,7 @@ blockSize = 128;
 window = hamming(order +1);
 fs = 48000;
 
-filterp = fir1(order,1/8,"LOW",window);
+filterp = fir1(order,1/4);
 steps = 10;
 
 %step test signal
